@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>پنل کاربری</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg-pattern: #5d9e68;
+      --card-bg: rgba(255, 255, 255, 0.12);
+      --btn-green: #48994e;
+      --btn-blue: #2f8398;
+      --text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, -apple-system, sans-serif;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-pattern);
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 12px, transparent 13px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.06) 18px, transparent 19px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,0.07) 15px, transparent 16px);
+      background-size: 140px 140px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--text);
+    }
+
+    .user-header {
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      padding: 12px 16px;
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .grid-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 15px 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: transform 0.1s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-green { background: var(--btn-green); }
+    .btn-blue { background: var(--btn-blue); }
+    .btn-full { width: 100%; }
+  </style>
+</head>
+<body>
+
+  <div class="user-header">
+    <span id="user-name">کاربر تلگرام</span>
+    <span>🟢 وضعیت: آنلاین</span>
+  </div>
+
+  <div class="grid-row">
+    <button class="btn btn-green" onclick="sendAction('buy')">خرید سرویس جدید 🐥</button>
+    <button class="btn btn-green" onclick="sendAction('free_test')">تست رایگان ⭐️</button>
+  </div>
+
+  <button class="btn btn-blue btn-full" onclick="sendAction('partner')">همکاری با ما 🤝</button>
+
+  <div class="grid-row">
+    <button class="btn btn-blue" onclick="sendAction('subscriptions')">اشتراک‌های من 👀</button>
+    <button class="btn btn-blue" onclick="sendAction('profile')">پروفایل من 👤</button>
+  </div>
+
+  <div class="grid-row">
+    <button class="btn btn-blue" onclick="sendAction('wallet')">کیف پول + شارژ 🏦</button>
+    <button class="btn btn-blue" onclick="sendAction('tutorial')">راهنمای اتصال 🔗</button>
+  </div>
+
+  <div class="grid-row">
+    <button class="btn btn-blue" onclick="sendAction('settings')">تنظیمات حساب ⚙️</button>
+    <button class="btn btn-blue" onclick="sendAction('invite')">دعوت دوستان ➕</button>
+  </div>
+
+  <button class="btn btn-blue btn-full" onclick="sendAction('support')">پشتیبانی آنلاین 🧑‍💻</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      document.getElementById('user-name').innerText = tg.initDataUnsafe.user.first_name || 'کاربر';
+    }
+
+    function sendAction(actionName) {
+      tg.sendData(JSON.stringify({ action: actionName }));
+      tg.close();
+    }
+  </script>
+</body>
+</html>
